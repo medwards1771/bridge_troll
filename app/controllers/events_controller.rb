@@ -65,8 +65,9 @@ class EventsController < ApplicationController
 
   def new
     skip_authorization
-    @event = Event.new(public_email: current_user.email, time_zone: current_user.time_zone)
-    @event.event_sessions << EventSession.new
+    @event = DraftEvent.new
+    # @event = Event.new(public_email: current_user.email, time_zone: current_user.time_zone)
+    # @event.event_sessions << EventSession.new
   end
 
   def edit

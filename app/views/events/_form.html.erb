@@ -1,4 +1,4 @@
-<%= simple_nested_form_for @event do |f| %>
+<%= simple_nested_form_for @event, url: events_path do |f| %>
   <% if @event.new_record? || @event.draft? %>
     <h2>Ready to create your Event? Hold on a second...</h2>
 
