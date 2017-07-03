@@ -10,7 +10,6 @@ describe Event do
   it { is_expected.to have_many(:event_sessions) }
   it { is_expected.to validate_numericality_of(:student_rsvp_limit).is_greater_than(0) }
   it { is_expected.to validate_numericality_of(:volunteer_rsvp_limit).is_greater_than(0) }
-  it { is_expected.to validate_presence_of(:title) }
 
   describe "validations" do
     describe "target_audience" do
@@ -30,15 +29,6 @@ describe Event do
         }
         it { is_expected.not_to validate_presence_of(:target_audience) }
       end
-    end
-
-    it "event_sessions" do
-      event = create(:event)
-      event.event_sessions.destroy_all
-      expect(event).to have(1).error_on(:event_sessions)
-
-      event.event_sessions << build(:event_session)
-      expect(event).to be_valid
     end
 
     it "requires that allowed_operating_system_ids correspond to OperatingSystem records" do
@@ -67,19 +57,6 @@ describe Event do
     session1.update_attributes(starts_at: 10.days.ago, ends_at: 9.days.ago)
 
     expect(event.reload.event_sessions).to eq([session1, session2, session3])
-  end
-
-  it "must have a time zone" do
-    event = build(:event, time_zone: nil)
-    expect(event).to have(1).error_on(:time_zone)
-  end
-
-  it "must have a valid time zone" do
-    event = build(:event, time_zone: "xxx")
-    expect(event).to have(1).error_on(:time_zone)
-
-    event = build(:event, time_zone: 'Hawaii')
-    expect(event).to have(0).errors
   end
 
   describe "updating an event" do

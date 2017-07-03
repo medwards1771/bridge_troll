@@ -73,13 +73,6 @@ class Event < ActiveRecord::Base
     has_many :volunteer_surveys, -> { where('rsvps.role_id = ?', Role::VOLUNTEER.id) }
   end
 
-  validates :title, presence: true
-  validates :chapter, presence: true
-  validates :food_provided, inclusion: { in: [true, false] }
-  validates :time_zone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true }, presence: true
-  validates :current_state, inclusion: { in: Event.current_states.keys }
-  validates :event_sessions, length: { minimum: 1 }
-
   with_options(if: :restrict_operating_systems?) do
     validates :allowed_operating_system_ids, array_of_ids: OperatingSystem.all.map(&:id)
   end
